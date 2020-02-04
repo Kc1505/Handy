@@ -73,6 +73,8 @@ public class Melee : MonoBehaviour
 	}
 
 	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Maybe just make the angle of the stab always 0, and work from there?~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 	//private void OnCollisionEnter2D(Collision2D collision) {
 	//	if (collision.relativeVelocity.magnitude >= 1 && !GetComponent<SliderJoint2D>()) {
 	//		Vector2 v = GetComponent<Rigidbody2D>().velocity;
