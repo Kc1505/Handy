@@ -8,7 +8,7 @@ public class Hand : MonoBehaviour
 	public bool IsGrabbing;
 	public bool IsWielding;
 
-    void FixedUpdate()
+    void Update()
     {
 		if (IsWielding) {
 			Destroy(GetComponent<WheelJoint2D>());

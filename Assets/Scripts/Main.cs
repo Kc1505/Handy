@@ -17,8 +17,6 @@ public class Main : MonoBehaviour
 	bool slow = false;
     void Update()
     {
-		
-
 		if (Input.GetKeyDown(KeyCode.LeftAlt)) {
 			if (slow == false) {
 				slow = true;

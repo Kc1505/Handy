@@ -11,7 +11,6 @@ public class Melee : MonoBehaviour
 
 	void Update()
     {
-		//Debug.Log(GetComponent<Rigidbody2D>());
 
 		Equipping();
 
@@ -23,7 +22,10 @@ public class Melee : MonoBehaviour
 			hand.transform.parent.GetComponent<Main>().StopSuper();
 		}
 
-		Hitting();
+		//Part of the slicing/stabbing code
+		//if (GetComponent<SliderJoint2D>()) {
+		//	SlideOut();
+		//}
 	}
 
 	void Equipping() {
@@ -71,25 +73,30 @@ public class Melee : MonoBehaviour
 		gameObject.GetComponent<HingeJoint2D>().limits = limits;
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.relativeVelocity.magnitude >= 10 /*&& GetComponent<Rigidbody2D>().attachedColliderCount < 1*/) {
-			Vector2 v = GetComponent<Rigidbody2D>().velocity;
-			float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
-			
+	//Part of the slicing/stabbing code
+	//private void OnCollisionEnter2D(Collision2D collision) {
+	//	if (collision.relativeVelocity.magnitude >= 20 && !GetComponent<SliderJoint2D>()) {
+	//		Vector2 v = GetComponent<Rigidbody2D>().velocity;
+	//		float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
 
-			gameObject.AddComponent<SliderJoint2D>();
-			gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
-			gameObject.GetComponent<SliderJoint2D>().connectedAnchor = transform.InverseTransformPoint(collision.contacts[0].point);
-			gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
-			gameObject.GetComponent<SliderJoint2D>().angle = angle;
 
-			JointTranslationLimits2D limits = new JointTranslationLimits2D { min = -2, max = 2 };
+	//		gameObject.AddComponent<SliderJoint2D>();
+	//		gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
+	//		gameObject.GetComponent<SliderJoint2D>().anchor = transform.InverseTransformPoint(collision.contacts[0].point);
+	//		gameObject.GetComponent<SliderJoint2D>().connectedAnchor = collision.transform.InverseTransformPoint(collision.contacts[0].point);
+	//		gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
+	//		//if (GetComponent<>())
+	//		gameObject.GetComponent<SliderJoint2D>().angle = Mathf.Abs(angle);
 
-			gameObject.GetComponent<SliderJoint2D>().limits = limits;
-		}
-	}
+	//		JointTranslationLimits2D limits = new JointTranslationLimits2D { min = -0.9f, max = 0.9f };
 
-	void Hitting() {
-		
-	}
+	//		gameObject.GetComponent<SliderJoint2D>().limits = limits;
+	//	}
+	//}
+
+	//void SlideOut() {
+	//	if (gameObject.GetComponent<SliderJoint2D>().jointTranslation <= gameObject.GetComponent<SliderJoint2D>().limits.min || gameObject.GetComponent<SliderJoint2D>().jointTranslation >= gameObject.GetComponent<SliderJoint2D>().limits.max) {
+	//		Destroy(gameObject.GetComponent<SliderJoint2D>());
+	//	}
+	//}
 }
