@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 	public float explosionRadius;
 	public float explodeVelocity;
 	public GameObject explosionSound;
+	public GameObject Explosion;
 
 	float startTime;
 	bool fade = false;
@@ -44,6 +45,7 @@ public class Bullet : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision) {
 		if (explosionForce > 0 && Mathf.Abs(collision.relativeVelocity.x) + Mathf.Abs(collision.relativeVelocity.y) >= explodeVelocity) {
 			Instantiate(explosionSound, transform.position, transform.rotation);
+			Destroy(Instantiate(Explosion, transform.position, transform.rotation), Explosion.GetComponent<ParticleSystem>().main.duration);
 			Collider2D[] hits = Physics2D.OverlapCircleAll(gameObject.GetComponent<Transform>().position, explosionRadius);
 			int i = 0;
 			while (i < hits.Length) {

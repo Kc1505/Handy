@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Shootable
-  - Gun
   layers:
   - Default
   - TransparentFX
@@ -18,11 +17,11 @@ TagManager:
   - Lighting
   - Ground
   - Postprocessing
-  - Body
-  - Arm1
-  - Arm2
-  - Hand
-  - EquippedMag
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
