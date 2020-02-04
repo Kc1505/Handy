@@ -33,7 +33,6 @@ public class GunScript : MonoBehaviour
 
 	//Set any default variables
 	private void Start() {
-		Random.seed = System.DateTime.Now.Millisecond;
 
 		lastShotSec = RPS;
 		lastShotTime = Time.time;
