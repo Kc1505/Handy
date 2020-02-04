@@ -200,7 +200,7 @@ FixedJoint2D:
   m_ConnectedRigidBody: {fileID: 6489637045552981889}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: -4.999995, y: 0}
   m_DampingRatio: 0
@@ -221,9 +221,10 @@ MonoBehaviour:
   ExplosionDamage: 40
   explosionForce: 2000
   explosionRadius: 10
-  explodeVelocity: 20
+  explodeVelocity: 10
   explosionSound: {fileID: 3551114491473869772, guid: 72034773306670244bd093cac4902519,
     type: 3}
+  Explosion: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
 --- !u!96 &5800408527291707241
 TrailRenderer:
   serializedVersion: 2

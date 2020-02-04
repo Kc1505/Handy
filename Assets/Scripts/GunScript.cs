@@ -157,8 +157,9 @@ public class GunScript : MonoBehaviour
 				shell.GetComponent<Rigidbody2D>().AddForce(Chamber.transform.right * Random.Range(-0.1f, 0.1f));
 			}
 			for (int i = Mag.GetComponent<Magazine>().AmmoCount; i > 0; i--) {
-				GameObject shell = Instantiate(Mag.GetComponent<Magazine>().AmmoType, Chamber.transform.position, Chamber.transform.rotation);
-				shell.transform.parent = EmptyShells.transform;
+				GameObject round = Instantiate(Mag.GetComponent<Magazine>().AmmoType, Chamber.transform.position, Chamber.transform.rotation);
+				round.transform.parent = EmptyShells.transform;
+				round.GetComponentInChildren<Bullet>().explodeVelocity += 10;
 				//shell.GetComponent<Rigidbody2D>().AddForce(Chamber.transform.right * Random.Range(-0.1f, 0.1f));
 			}
 

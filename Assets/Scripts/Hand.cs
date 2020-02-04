@@ -20,7 +20,8 @@ public class Hand : MonoBehaviour
 	}
 
 	void Grabbing() {
-		if (Physics2D.OverlapCircleAll(transform.position, 0.2f).Length > 1 && Input.GetKey("space") && IsGrabbing == false) {
+		if (Physics2D.OverlapCircleAll(transform.position, 0.18f).Length > 1 && Input.GetKey("space") && IsGrabbing == false) {
+			Debug.Log("Here");
 			IsGrabbing = true;
 			foreach (Collider2D collider in Physics2D.OverlapCircleAll(transform.position, 0.18f)) {
 				if (collider.gameObject.transform.parent != transform.parent) {
