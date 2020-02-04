@@ -319,10 +319,12 @@ MonoBehaviour:
   AudioSources: {fileID: 6026523685895147928}
   gunshotSound: {fileID: 6193793288427316952, guid: 3ef6b5d5eb4929f4e8e3e6102d7691fd,
     type: 3}
+  ReloadSound: {fileID: 6446527084919850767, guid: cc71a951e593e1d4cbb09d3839584215,
+    type: 3}
   emptyClick: {fileID: 8753117055990366389, guid: d6deb3ba9cabb4e4cb712b44c0109c05,
     type: 3}
   bulletForce: 100
-  recoil: 400
+  recoil: 1500
   RPS: 10
   ejectForce: 7
 --- !u!60 &6026523685949647526
