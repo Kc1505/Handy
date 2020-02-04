@@ -27,6 +27,19 @@ public class Main : MonoBehaviour
 				Time.timeScale = 1f;
 			}
 		}
+
+		if (Input.GetKey(KeyCode.W)) {
+			Body.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 100);
+		}
+		if (Input.GetKey(KeyCode.A)) {
+			Body.GetComponent<Rigidbody2D>().AddForce(-Vector2.right * 100);
+		}
+		if (Input.GetKey(KeyCode.D)) {
+			Body.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 100);
+		}
+		if (Input.GetKey(KeyCode.S)) {
+			Body.GetComponent<Rigidbody2D>().AddForce(-Vector2.up * 100);
+		}
 	}
 
 	public void SuperMode() {

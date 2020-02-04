@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 20
-  productGUID: 00000000000000000000000000000000
+  productGUID: 10e721920af8a2b4d91a620ea6d69c4a
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -744,7 +744,7 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   cloudProjectId: 16aa07a1-deea-41e8-ad35-5023a21a0916
   framebufferDepthMemorylessMode: 0
-  projectName: EffectsExamples
+  projectName: Handy
   organizationId: kc1505
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

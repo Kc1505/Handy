@@ -22,9 +22,9 @@ public class Melee : MonoBehaviour
 			hand.transform.parent.GetComponent<Main>().StopSuper();
 		}
 
-		//if (GetComponent<SliderJoint2D>()) {
-		//	SlideOut();
-		//}
+		if (GetComponent<SliderJoint2D>()) {
+			//SlideOut();
+		}
 	}
 
 	void Equipping() {
@@ -72,35 +72,38 @@ public class Melee : MonoBehaviour
 		gameObject.GetComponent<HingeJoint2D>().limits = limits;
 	}
 
-	
+
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Maybe just make the angle of the stab always 0, and work from there?~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	//private void OnCollisionEnter2D(Collision2D collision) {
-	//	if (collision.relativeVelocity.magnitude >= 1 && !GetComponent<SliderJoint2D>()) {
-	//		Vector2 v = GetComponent<Rigidbody2D>().velocity;
-	//		float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+	private void OnCollisionEnter2D(Collision2D collision) {
+		if (collision.relativeVelocity.magnitude >= 1 && !GetComponent<SliderJoint2D>()) {
+			Vector2 v = collision.relativeVelocity;
+			float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
 
-	//		Debug.Log(angle);
+			//Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity));
 
-	//		if(Mathf.Abs(angle) <= 10 || (Mathf.Abs(angle) <= 190 && Mathf.Abs(angle) >= 170)) {
-	//			gameObject.AddComponent<SliderJoint2D>();
-	//			gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
-	//			gameObject.GetComponent<SliderJoint2D>().anchor = transform.InverseTransformPoint(collision.contacts[0].point);
-	//			gameObject.GetComponent<SliderJoint2D>().connectedAnchor = collision.transform.InverseTransformPoint(collision.contacts[0].point);
-	//			gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
-	//			//if (GetComponent<>())
-	//			gameObject.GetComponent<SliderJoint2D>().angle = Mathf.Abs(angle);
+			//Make sure that the collision isnt with the player or the hand, refine the angles a bit I guess
 
-	//			JointTranslationLimits2D limits = new JointTranslationLimits2D { min = -0.1f, max = 0.4f };
+			if (transform.InverseTransformDirection(collision.relativeVelocity).x > 5 && Mathf.Abs(transform.InverseTransformDirection(collision.relativeVelocity).y) < 2) {
+				gameObject.AddComponent<SliderJoint2D>();
+				gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
+				gameObject.GetComponent<SliderJoint2D>().anchor = transform.InverseTransformPoint(collision.contacts[0].point);
+				gameObject.GetComponent<SliderJoint2D>().connectedAnchor = collision.transform.InverseTransformPoint(collision.contacts[0].point);
+				gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
+				gameObject.GetComponent<SliderJoint2D>().angle = 0;
+				gameObject.GetComponent<SliderJoint2D>().breakForce = 5000;
+				gameObject.GetComponent<SliderJoint2D>().breakTorque = 1500;
 
-	//			gameObject.GetComponent<SliderJoint2D>().limits = limits;
-	//		}
-	//	}
-	//}
+				JointTranslationLimits2D limits = new JointTranslationLimits2D { min = 0.1f, max = 0.5f };
 
-	//void SlideOut() {
-	//	if (gameObject.GetComponent<SliderJoint2D>().jointTranslation <= gameObject.GetComponent<SliderJoint2D>().limits.min) {
-	//		Destroy(gameObject.GetComponent<SliderJoint2D>());
-	//	}
-	//}
+				gameObject.GetComponent<SliderJoint2D>().limits = limits;
+			}
+		}
+	}
+
+	void SlideOut() {
+		if (gameObject.GetComponent<SliderJoint2D>().jointTranslation <= gameObject.GetComponent<SliderJoint2D>().limits.min) {
+			Destroy(gameObject.GetComponent<SliderJoint2D>());
+		}
+	}
 }
