@@ -150,7 +150,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!60 &7711613262507389793
 PolygonCollider2D:
@@ -197,6 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652cfaa9feaffbe4e97e6137b54d98b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hittingGround: {fileID: 8661842759767154618, guid: 9636897333ac65b4e9b6b3230b3c868e,
+    type: 3}
 --- !u!1 &3427370288406483186
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +323,7 @@ MonoBehaviour:
   explosionRadius: 0
   explodeVelocity: 0
   explosionSound: {fileID: 0}
+  Explosion: {fileID: 0}
 --- !u!60 &2947293086776874187
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -393,10 +396,10 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.2
+  m_Time: 0.05
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.01
+    widthMultiplier: 0.02
     widthCurve:
       serializedVersion: 2
       m_Curve:

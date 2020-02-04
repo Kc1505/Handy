@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6193793288427316952
+--- !u!1 &8753117055990366389
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,23 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6193793288427316954}
-  - component: {fileID: 6193793288427316955}
-  - component: {fileID: 6193793288427316965}
+  - component: {fileID: 8753117055990366391}
+  - component: {fileID: 8753117055990366390}
+  - component: {fileID: 8753117055990366344}
   m_Layer: 0
-  m_Name: m4a1 Shot
+  m_Name: EmptyClick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6193793288427316954
+--- !u!4 &8753117055990366391
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6193793288427316952}
+  m_GameObject: {fileID: 8753117055990366389}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.3888175, y: -1.7937368, z: -6.198242}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,20 +32,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &6193793288427316955
+--- !u!82 &8753117055990366390
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6193793288427316952}
+  m_GameObject: {fileID: 8753117055990366389}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4e20c019aaa4a3d47bb05b5d328b8b15, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9c7e3f5c5ef12194fb1c5e168be725d9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
-  m_Pitch: 2
+  m_Volume: 0.5
+  m_Pitch: 1.5
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -128,16 +128,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6193793288427316965
+--- !u!114 &8753117055990366344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6193793288427316952}
+  m_GameObject: {fileID: 8753117055990366389}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 688ca344ac1f0014487b978c79cfd177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variance: 0.2
+  variance: 0.1

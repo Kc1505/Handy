@@ -16,6 +16,7 @@ public class GunScript : MonoBehaviour
 	public GameObject EmptyMags;        //Empty GameObject to organise spent shells.
 	public GameObject AudioSources;
 	public GameObject gunshotSound;
+	public GameObject ReloadSound;
 	public GameObject emptyClick;
 	public float bulletForce;           //Force at which the bullet is fired with.
 	public float recoil;                //Recoil torque applied to gun.
@@ -32,6 +33,8 @@ public class GunScript : MonoBehaviour
 
 	//Set any default variables
 	private void Start() {
+		Random.seed = System.DateTime.Now.Millisecond;
+
 		lastShotSec = RPS;
 		lastShotTime = Time.time;
 		gunAmmoCount = Mag.GetComponent<Magazine>().AmmoCount;
@@ -124,8 +127,6 @@ public class GunScript : MonoBehaviour
 		if (hasMag == true) {
 			try {
 				Destroy(oldMag.GetComponent<HingeJoint2D>());
-				//Collision with Hand
-				oldMag.layer = 8;
 				oldMag.transform.parent = EmptyMags.transform;
 				oldMag.transform.position += -transform.up * 0.25f;
 				oldMag.GetComponent<Rigidbody2D>().AddForce(-transform.up * 20);
@@ -135,10 +136,11 @@ public class GunScript : MonoBehaviour
 			}
 
 			GameObject newMag = Instantiate(Mag, MagSlot.transform.position, transform.rotation);
-			newMag.transform.parent = MagSlot.transform;
+			Instantiate(ReloadSound, MagSlot.transform.position, MagSlot.transform.rotation);
 
-			//No collision with Hand
-			oldMag.layer = 15;
+			lastShotTime = Time.time + 0.5f;
+
+			newMag.transform.parent = MagSlot.transform;
 
 			newMag.GetComponent<HingeJoint2D>().connectedBody = GetComponent<Rigidbody2D>();
 			newMag.GetComponent<HingeJoint2D>().connectedAnchor = new Vector2(-0.75f, 0);
@@ -152,12 +154,12 @@ public class GunScript : MonoBehaviour
 		}
 		else {
 			for (int i = gunAmmoCount - Mag.GetComponent<Magazine>().AmmoCount; i > 0; i--) {
-				GameObject shell = Instantiate(Mag.GetComponent<Magazine>().AmmoType.GetComponent<Ammunition>().Shell, Chamber.transform.position, Chamber.transform.rotation);
+				GameObject shell = Instantiate(Mag.GetComponent<Magazine>().AmmoType.GetComponent<Ammunition>().Shell, Chamber.transform.position - Chamber.transform.up * Random.Range(0f, 0.5f), Chamber.transform.rotation);
 				shell.transform.parent = EmptyShells.transform;
 				shell.GetComponent<Rigidbody2D>().AddForce(Chamber.transform.right * Random.Range(-0.1f, 0.1f));
 			}
 			for (int i = Mag.GetComponent<Magazine>().AmmoCount; i > 0; i--) {
-				GameObject round = Instantiate(Mag.GetComponent<Magazine>().AmmoType, Chamber.transform.position, Chamber.transform.rotation);
+				GameObject round = Instantiate(Mag.GetComponent<Magazine>().AmmoType, Chamber.transform.position - Chamber.transform.up * Random.Range(0f, 0.5f), Chamber.transform.rotation);
 				round.transform.parent = EmptyShells.transform;
 				round.GetComponentInChildren<Bullet>().explodeVelocity += 10;
 				//shell.GetComponent<Rigidbody2D>().AddForce(Chamber.transform.right * Random.Range(-0.1f, 0.1f));

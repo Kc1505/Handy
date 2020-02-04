@@ -12,7 +12,7 @@ public class Magazine : MonoBehaviour
 
 	void Update() {
 		if (fade == true && GetComponent<Renderer>().material.color.a > 0) {
-			GetComponent<Renderer>().material.color -= new Color(0, 0, 0, 0.0005f);
+			GetComponent<Renderer>().material.color -= new Color(0, 0, 0, 0.001f);
 		}
 		else if (GetComponent<Renderer>().material.color.a <= 0) {
 			Destroy(gameObject);

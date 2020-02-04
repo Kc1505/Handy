@@ -43,7 +43,7 @@ public class Bullet : MonoBehaviour
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision) {
-		if (explosionForce > 0 && Mathf.Abs(collision.relativeVelocity.x) + Mathf.Abs(collision.relativeVelocity.y) >= explodeVelocity) {
+		if (explosionForce > 0 && collision.relativeVelocity.magnitude > explodeVelocity) {
 			Instantiate(explosionSound, transform.position, transform.rotation);
 			Destroy(Instantiate(Explosion, transform.position, transform.rotation), Explosion.GetComponent<ParticleSystem>().main.duration);
 			Collider2D[] hits = Physics2D.OverlapCircleAll(gameObject.GetComponent<Transform>().position, explosionRadius);

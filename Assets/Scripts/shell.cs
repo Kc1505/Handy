@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class shell : MonoBehaviour
 {
+	public GameObject hittingGround;
+
 	bool fade = false;
 
     void Update()
@@ -18,5 +20,9 @@ public class shell : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision) {
 		fade = true;
+
+		if(GetComponent<Rigidbody2D>().velocity.magnitude > 1) {
+			Instantiate(hittingGround, transform);
+		}
 	}
 }
