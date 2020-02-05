@@ -8,6 +8,7 @@ public class Main : MonoBehaviour
 	public GameObject Arm1;
 	public GameObject Arm2;
 	public GameObject Equipped;
+	public GameObject Jetpack;
 
 	private void OnDrawGizmos() {
 		UnityEditor.Handles.color = Color.yellow - new Color(0, 0, 0, 0.5f);
@@ -34,6 +35,7 @@ public class Main : MonoBehaviour
 
 		if (Input.GetKey(KeyCode.W)) {
 			Body.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 110);
+			Destroy(Instantiate(Jetpack, Body.transform.position, Quaternion.Euler(Body.transform.rotation.z + 90, 90, 0)),2.5f);
 		}
 		if(Mathf.Abs(Body.GetComponent<Rigidbody2D>().velocity.x) < 10) {
 			if (Input.GetKey(KeyCode.A)) {
