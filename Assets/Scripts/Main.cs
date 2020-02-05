@@ -28,18 +28,37 @@ public class Main : MonoBehaviour
 			}
 		}
 
+		UpRight();
+
+
+
 		if (Input.GetKey(KeyCode.W)) {
-			Body.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 100);
+			Body.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 110);
 		}
-		if (Input.GetKey(KeyCode.A)) {
-			Body.GetComponent<Rigidbody2D>().AddForce(-Vector2.right * 100);
+		if(Mathf.Abs(Body.GetComponent<Rigidbody2D>().velocity.x) < 10) {
+			if (Input.GetKey(KeyCode.A)) {
+				Body.GetComponent<Rigidbody2D>().AddForce(-Vector2.right * 100);
+			}
+			if (Input.GetKey(KeyCode.D)) {
+				Body.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 100);
+			}
 		}
-		if (Input.GetKey(KeyCode.D)) {
-			Body.GetComponent<Rigidbody2D>().AddForce(Vector2.right * 100);
+	}
+
+	void UpRight() {
+
+		Body.GetComponent<Rigidbody2D>().angularVelocity *= 0.9f;
+
+		float preForce = Mathf.Abs(UnityEditor.TransformUtils.GetInspectorRotation(Body.transform).z);
+
+		if (UnityEditor.TransformUtils.GetInspectorRotation(Body.transform).z < 0) {
+			Body.GetComponent<Rigidbody2D>().AddTorque(preForce);
 		}
-		if (Input.GetKey(KeyCode.S)) {
-			Body.GetComponent<Rigidbody2D>().AddForce(-Vector2.up * 100);
+		else if (UnityEditor.TransformUtils.GetInspectorRotation(Body.transform).z > 0) {
+			Body.GetComponent<Rigidbody2D>().AddTorque(-preForce);
 		}
+
+		
 	}
 
 	public void SuperMode() {

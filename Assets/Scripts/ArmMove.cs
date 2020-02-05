@@ -77,12 +77,8 @@ public class ArmMove : MonoBehaviour
 		GetComponent<Rigidbody2D>().angularVelocity = 0;
 		float ratio = 1;
 
-		if (angle <= 20 && angle >= -20) {
+		if (Mathf.Abs(angle) <= 20) {
 			ratio = Mathf.Abs(angle)/20;
-		}
-
-		if (transform.parent.GetComponentInChildren<Hand>().IsGrabbing) {
-			//ratio *= 0.5f;
 		}
 
 		if (angle < 0) {

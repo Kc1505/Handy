@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Melee : MonoBehaviour
 {
+	public GameObject sparks;
+
 	GameObject hand;
 
 	bool grabbed = false;               //Used to store if the Sword has been grabbed or not.
@@ -23,7 +25,9 @@ public class Melee : MonoBehaviour
 		if (grabbed == true && Input.GetMouseButtonUp(0)) {
 			hand.transform.parent.GetComponent<Main>().StopSuper();
 		}
+	}
 
+	private void FixedUpdate() {
 		if (GetComponent<SliderJoint2D>()) {
 			SlideOut();
 		}
@@ -80,19 +84,26 @@ public class Melee : MonoBehaviour
 			Vector2 v = collision.relativeVelocity;
 			float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
 
-			Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity));
+			Instantiate(sparks, collision.contacts[0].point, Quaternion.Euler(0,90,angle));
 
 			//Make all of this code usable for different sized weapons etc (can it stab? where does the blade start? how long is the blade?)
 
-			if (transform.InverseTransformDirection(collision.relativeVelocity).x > 5 && transform.InverseTransformPoint(collision.contacts[0].point).x < -4) {
+			Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity).x);
+
+			if (transform.InverseTransformDirection(collision.relativeVelocity).x > 0 && transform.InverseTransformPoint(collision.contacts[0].point).x < -4) {
 				gameObject.AddComponent<SliderJoint2D>();
 				gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
 				gameObject.GetComponent<SliderJoint2D>().anchor = transform.InverseTransformPoint(collision.contacts[0].point);
 				gameObject.GetComponent<SliderJoint2D>().connectedAnchor = collision.transform.InverseTransformPoint(collision.contacts[0].point);
 				gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
 				gameObject.GetComponent<SliderJoint2D>().angle = 0;
+
+				//Maybe make the motor stop working once it gets as deep as it can, to simulate momentum?
+				
 				gameObject.GetComponent<SliderJoint2D>().useMotor = true;
-				gameObject.GetComponent<SliderJoint2D>().motor = new JointMotor2D {motorSpeed = 10, maxMotorTorque = 100 };
+				gameObject.GetComponent<SliderJoint2D>().motor = new JointMotor2D {motorSpeed = 1000, maxMotorTorque = 100 };
+
+				gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2 {x = collision.otherRigidbody.velocity.x };
 
 				//make it so the faster it goes the deeper the stab is (Watch out for weird collisions I guess)
 
@@ -103,7 +114,7 @@ public class Melee : MonoBehaviour
 
 	void SlideOut() {
 
-		gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp((gameObject.GetComponent<SliderJoint2D>().jointTranslation / gameObject.GetComponent<SliderJoint2D>().limits.max) * 10000,2000,10000);
-		gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp((gameObject.GetComponent<SliderJoint2D>().jointTranslation / gameObject.GetComponent<SliderJoint2D>().limits.max) * 5000, 1000, 5000);
+		gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp(1 / (1 - Mathf.Clamp(gameObject.GetComponent<SliderJoint2D>().jointTranslation, 0f, gameObject.GetComponent<SliderJoint2D>().limits.max) / gameObject.GetComponent<SliderJoint2D>().limits.max), 500, Mathf.Infinity);
+		gameObject.GetComponent<SliderJoint2D>().breakTorque = Mathf.Clamp(1 / (1 - Mathf.Clamp(gameObject.GetComponent<SliderJoint2D>().jointTranslation, 0f, gameObject.GetComponent<SliderJoint2D>().limits.max) / gameObject.GetComponent<SliderJoint2D>().limits.max), 500, Mathf.Infinity);
 	}
 }
