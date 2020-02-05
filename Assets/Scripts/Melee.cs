@@ -11,6 +11,8 @@ public class Melee : MonoBehaviour
 
 	void Update()
     {
+		//if(gameObject.GetComponent<SliderJoint2D>())
+		//Debug.Log(gameObject.GetComponent<SliderJoint2D>().jointTranslation);
 
 		Equipping();
 
@@ -23,7 +25,7 @@ public class Melee : MonoBehaviour
 		}
 
 		if (GetComponent<SliderJoint2D>()) {
-			//SlideOut();
+			SlideOut();
 		}
 	}
 
@@ -73,37 +75,35 @@ public class Melee : MonoBehaviour
 	}
 
 
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Maybe just make the angle of the stab always 0, and work from there?~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 	private void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.relativeVelocity.magnitude >= 1 && !GetComponent<SliderJoint2D>()) {
+		if (!GetComponent<SliderJoint2D>() && collision.gameObject.name != "Hand") {
 			Vector2 v = collision.relativeVelocity;
 			float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
 
-			//Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity));
+			Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity));
 
-			//Make sure that the collision isnt with the player or the hand, refine the angles a bit I guess
+			//Make all of this code usable for different sized weapons etc (can it stab? where does the blade start? how long is the blade?)
 
-			if (transform.InverseTransformDirection(collision.relativeVelocity).x > 5 && Mathf.Abs(transform.InverseTransformDirection(collision.relativeVelocity).y) < 2) {
+			if (transform.InverseTransformDirection(collision.relativeVelocity).x > 5 && transform.InverseTransformPoint(collision.contacts[0].point).x < -4) {
 				gameObject.AddComponent<SliderJoint2D>();
 				gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
 				gameObject.GetComponent<SliderJoint2D>().anchor = transform.InverseTransformPoint(collision.contacts[0].point);
 				gameObject.GetComponent<SliderJoint2D>().connectedAnchor = collision.transform.InverseTransformPoint(collision.contacts[0].point);
 				gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
 				gameObject.GetComponent<SliderJoint2D>().angle = 0;
-				gameObject.GetComponent<SliderJoint2D>().breakForce = 5000;
-				gameObject.GetComponent<SliderJoint2D>().breakTorque = 1500;
+				gameObject.GetComponent<SliderJoint2D>().useMotor = true;
+				gameObject.GetComponent<SliderJoint2D>().motor = new JointMotor2D {motorSpeed = 10, maxMotorTorque = 100 };
 
-				JointTranslationLimits2D limits = new JointTranslationLimits2D { min = 0.1f, max = 0.5f };
+				//make it so the faster it goes the deeper the stab is (Watch out for weird collisions I guess)
 
-				gameObject.GetComponent<SliderJoint2D>().limits = limits;
+				gameObject.GetComponent<SliderJoint2D>().limits = new JointTranslationLimits2D { min = 0.1f, max = Mathf.Clamp(transform.InverseTransformDirection(collision.relativeVelocity).x / 50, 0.2f, 1.5f) };
 			}
 		}
 	}
 
 	void SlideOut() {
-		if (gameObject.GetComponent<SliderJoint2D>().jointTranslation <= gameObject.GetComponent<SliderJoint2D>().limits.min) {
-			Destroy(gameObject.GetComponent<SliderJoint2D>());
-		}
+
+		gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp((gameObject.GetComponent<SliderJoint2D>().jointTranslation / gameObject.GetComponent<SliderJoint2D>().limits.max) * 10000,2000,10000);
+		gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp((gameObject.GetComponent<SliderJoint2D>().jointTranslation / gameObject.GetComponent<SliderJoint2D>().limits.max) * 5000, 1000, 5000);
 	}
 }
