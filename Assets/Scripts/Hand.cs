@@ -31,7 +31,7 @@ public class Hand : MonoBehaviour
 
 	void Grabbing() {
 		foreach (Collider2D collider in Physics2D.OverlapCircleAll(transform.position, 0.2f)) {
-			if (collider.gameObject.transform.parent != transform.parent && IsGrabbing == false && Input.GetKey("space")) {
+			if (collider.gameObject.transform.parent != transform.parent && IsGrabbing == false && Input.GetMouseButton(0)) {
 				IsGrabbing = true;
 				gameObject.AddComponent<WheelJoint2D>();
 				gameObject.GetComponent<WheelJoint2D>().connectedBody = collider.GetComponent<Rigidbody2D>();
@@ -43,7 +43,7 @@ public class Hand : MonoBehaviour
 				break;
 			}
 		}
-		if (!Input.GetKey("space")) {
+		if (!Input.GetMouseButton(0)) {
 			Destroy(GetComponent<WheelJoint2D>());
 			IsGrabbing = false;
 		}

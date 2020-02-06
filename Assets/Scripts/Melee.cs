@@ -6,10 +6,14 @@ using UnityEngine;
 public class Melee : MonoBehaviour
 {
 	public GameObject sparks;
+	public GameObject Stab;
 
 	GameObject hand;
 
 	bool grabbed = false;               //Used to store if the Sword has been grabbed or not.
+	bool reachedMax;
+
+	float jointTime;
 
 	void Update()
     {
@@ -25,12 +29,14 @@ public class Melee : MonoBehaviour
 		if (grabbed == true && Input.GetMouseButtonUp(0)) {
 			hand.transform.parent.GetComponent<Main>().StopSuper();
 		}
-	}
 
-	private void FixedUpdate() {
 		if (GetComponent<SliderJoint2D>()) {
 			SlideOut();
 		}
+	}
+
+	private void FixedUpdate() {
+		
 	}
 
 	void Equipping() {
@@ -86,11 +92,21 @@ public class Melee : MonoBehaviour
 
 			Instantiate(sparks, collision.contacts[0].point, Quaternion.Euler(0,90,angle));
 
+			Debug.Log("Hit");
+
 			//Make all of this code usable for different sized weapons etc (can it stab? where does the blade start? how long is the blade?)
 
-			Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity).x);
+			//Debug.Log(transform.InverseTransformDirection(collision.relativeVelocity).x);
 
 			if (transform.InverseTransformDirection(collision.relativeVelocity).x > 0 && transform.InverseTransformPoint(collision.contacts[0].point).x < -4) {
+				Debug.Log("MadeJoint");
+
+				reachedMax = false;
+				jointTime = Time.time;
+
+				GameObject stabSound = Instantiate(Stab, collision.contacts[0].point, transform.rotation);
+				stabSound.GetComponent<AudioSource>().pitch *= Mathf.Clamp(20/collision.relativeVelocity.magnitude,0.75f,5);
+				
 				gameObject.AddComponent<SliderJoint2D>();
 				gameObject.GetComponent<SliderJoint2D>().connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
 				gameObject.GetComponent<SliderJoint2D>().anchor = transform.InverseTransformPoint(collision.contacts[0].point);
@@ -98,10 +114,15 @@ public class Melee : MonoBehaviour
 				gameObject.GetComponent<SliderJoint2D>().autoConfigureAngle = false;
 				gameObject.GetComponent<SliderJoint2D>().angle = 0;
 
+				gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Infinity;
+				gameObject.GetComponent<SliderJoint2D>().breakTorque = Mathf.Infinity;
+
 				//Maybe make the motor stop working once it gets as deep as it can, to simulate momentum?
-				
+
 				gameObject.GetComponent<SliderJoint2D>().useMotor = true;
-				gameObject.GetComponent<SliderJoint2D>().motor = new JointMotor2D {motorSpeed = 1000, maxMotorTorque = 100 };
+				gameObject.GetComponent<SliderJoint2D>().motor = new JointMotor2D {motorSpeed = 1000, maxMotorTorque = 1000 };
+
+				//Debug.Log(collision.otherRigidbody.velocity.x);
 
 				gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2 {x = collision.otherRigidbody.velocity.x };
 
@@ -114,7 +135,14 @@ public class Melee : MonoBehaviour
 
 	void SlideOut() {
 
-		gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp(1 / (1 - Mathf.Clamp(gameObject.GetComponent<SliderJoint2D>().jointTranslation, 0f, gameObject.GetComponent<SliderJoint2D>().limits.max) / gameObject.GetComponent<SliderJoint2D>().limits.max), 500, Mathf.Infinity);
-		gameObject.GetComponent<SliderJoint2D>().breakTorque = Mathf.Clamp(1 / (1 - Mathf.Clamp(gameObject.GetComponent<SliderJoint2D>().jointTranslation, 0f, gameObject.GetComponent<SliderJoint2D>().limits.max) / gameObject.GetComponent<SliderJoint2D>().limits.max), 500, Mathf.Infinity);
+		if (reachedMax) {
+			gameObject.GetComponent<SliderJoint2D>().breakForce = Mathf.Clamp(1 / (1 - Mathf.Clamp(gameObject.GetComponent<SliderJoint2D>().jointTranslation, 0f, gameObject.GetComponent<SliderJoint2D>().limits.max) / gameObject.GetComponent<SliderJoint2D>().limits.max), 500, Mathf.Infinity);
+			gameObject.GetComponent<SliderJoint2D>().breakTorque = Mathf.Clamp(1 / (1 - Mathf.Clamp(gameObject.GetComponent<SliderJoint2D>().jointTranslation, 0f, gameObject.GetComponent<SliderJoint2D>().limits.max) / gameObject.GetComponent<SliderJoint2D>().limits.max), 500, Mathf.Infinity);
+		}
+		
+		if (reachedMax == false && (gameObject.GetComponent<SliderJoint2D>().jointTranslation >= gameObject.GetComponent<SliderJoint2D>().limits.max || (Time.time - jointTime) > 3 )) {
+			reachedMax = true;
+			gameObject.GetComponent<SliderJoint2D>().motor = new JointMotor2D { motorSpeed = 1000, maxMotorTorque = 20 };
+		}
 	}
 }

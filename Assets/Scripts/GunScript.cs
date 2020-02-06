@@ -110,6 +110,7 @@ public class GunScript : MonoBehaviour
 				shell.GetComponent<Rigidbody2D>().AddForce(Chamber.transform.up * ejectForce + Chamber.transform.right * Random.Range(3, 5f));
 			}
 
+			GetComponent<Rigidbody2D>().AddForce(-transform.forward * recoil);
 			GetComponent<Rigidbody2D>().AddTorque(-recoil);
 
 			lastShotTime = Time.time;
