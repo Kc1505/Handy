@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+	[Header("DAMAGE:")]
 	public float hitDamage;
 	public float ExplosionDamage;
+	[Header("EXPLOSION:")]
 	public float explosionForce;
 	public float explosionRadius;
 	public float explodeVelocity;

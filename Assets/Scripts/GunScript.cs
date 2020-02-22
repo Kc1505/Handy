@@ -3,21 +3,26 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour
 {
+	[Header("OPPERATION:")]
 	public bool canShoot;               //If the gun can or cannot fire bullets.
 	public bool hasMag;                 //If the gun has a reloadable Magazine.
 	public bool atOnce;                 //If the gun reloads all shells at once (eg. Grenade Launcher).
+	[Header("PARTS:")]
 	public GameObject Mag;              //The Magazine that the gun is using (includes ammo type in mag).
 	public GameObject oldMag;           //used to swap out old mags for new mags.
 	public GameObject Barrel;           //Where the bullet is fired from.
 	public GameObject MagSlot;          //The slot in which the magazine goes.
 	public GameObject Chamber;          //Where the empty shell is ejected from.
+	[Header("EMPTY OBJECTS:")]
 	public GameObject FiredRounds;      //Empty GameObject to organise fired bullets.
 	public GameObject EmptyShells;      //Empty GameObject to organise spent shells.
 	public GameObject EmptyMags;        //Empty GameObject to organise spent shells.
+	[Header("AUDIO:")]
 	public GameObject AudioSources;
 	public GameObject gunshotSound;
 	public GameObject ReloadSound;
 	public GameObject emptyClick;
+	[Header("STATISTICS:")]
 	public float bulletForce;           //Force at which the bullet is fired with.
 	public float recoil;                //Recoil torque applied to gun.
 	public float RPS;                   //Rounds per second of gun.
